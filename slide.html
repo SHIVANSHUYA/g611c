@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="https://ascentinternationalschool.com/wp-content/uploads/2022/09/cropped-Ascent-Website-Website-Design-Elements-03-1-1-32x32.png" sizes="32x32" />
+  
+  <title>Childhood Roots</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      position: relative;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .slide-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .slide-container img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      opacity: 0;
+      transition: opacity 0.6s ease-in-out;
+    }
+
+    .slide-container img.active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    .controls {
+      position: fixed;
+      bottom: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 40px;
+      z-index: 5;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 10px 25px;
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+      pointer-events: none;
+    }
+
+    .controls button {
+      pointer-events: all;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: 0.3s ease;
+    }
+
+    .controls button:hover {
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(0, 0, 0, 0.279);
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 0, 0, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <button class="back-btn" onclick="exitPresentation()">← Back</button>
+
+  <div class="slide-container" id="slideContainer">
+    <img id="slide1" src="./1.png" class="active" alt="Slide">
+    <img id="slide2" alt="Slide">
+  </div>
+
+  <div class="controls">
+    <button id="prevBtn">◀ Previous</button>
+    <button id="nextBtn">Next ▶</button>
+  </div>
+
+  <script>
+    const slides = [
+      "./1.png","./2.png","./3.png","./4.png","./5.png","./6.png",
+      "./7.png","./8.png","./9.png","./10.png","./11.png","./12.png","./13.png","./14.png","./15.png","./16.png",
+      "./17.png","./18.png","./19.png","./20.png","./21.png","./22.png"
+    ];
+
+    // Preload all slides
+    const preloaded = [];
+    slides.forEach(src => {
+      const img = new Image();
+      img.src = src;
+      preloaded.push(img);
+    });
+
+    let current = 0;
+    const img1 = document.getElementById('slide1');
+    const img2 = document.getElementById('slide2');
+    let showingFirst = true;
+
+    function showSlide() {
+      const nextIndex = current % slides.length;
+      const nextSrc = slides[nextIndex];
+
+      const fadeOut = showingFirst ? img1 : img2;
+      const fadeIn = showingFirst ? img2 : img1;
+
+      fadeIn.src = nextSrc;
+      fadeIn.classList.add('active');
+      fadeOut.classList.remove('active');
+      showingFirst = !showingFirst;
+    }
+
+function nextSlide() {
+  if (current < slides.length - 1) {
+    current++;
+    showSlide();
+  } else {
+    // Optional visual feedback at the end
+    slideImg.style.opacity = 0.6;
+    setTimeout(() => (slideImg.style.opacity = 1), 300);
+  }
+}
+
+function prevSlide() {
+  if (current > 0) {
+    current--;
+    showSlide();
+  } else {
+    // Optional subtle pulse when trying to go back from first slide
+    slideImg.style.opacity = 0.6;
+    setTimeout(() => (slideImg.style.opacity = 1), 300);
+  }
+}
+
+
+    document.getElementById('nextBtn').addEventListener('click', nextSlide);
+    document.getElementById('prevBtn').addEventListener('click', prevSlide);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === "ArrowRight") nextSlide();
+      else if (e.key === "ArrowLeft") prevSlide();
+      else if (e.key === "Escape") exitPresentation();
+    });
+
+    // Auto fullscreen
+    document.addEventListener("DOMContentLoaded", () => {
+      const elem = document.documentElement;
+      if (elem.requestFullscreen) elem.requestFullscreen();
+      else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+      else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+    });
+
+    function exitPresentation() {
+      if (document.fullscreenElement) document.exitFullscreen();
+      location.href = 'index.html';
+    }
+
+    // Optional: lock landscape on phones
+    document.addEventListener('click', async () => {
+      const elem = document.documentElement;
+      if (elem.requestFullscreen) await elem.requestFullscreen();
+      if (screen.orientation && screen.orientation.lock) {
+        try { await screen.orientation.lock('landscape'); } catch {}
+      }
+    }, { once: true });
+  </script>
+</body>
+</html>
+
+
