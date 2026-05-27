@@ -90,12 +90,18 @@
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 15px;
+      margin: 0.5rem;
       padding: 1rem;
       width: clamp(140px, 25vw, 220px);
       text-align: center;
       transition: all 0.5s ease;
       backdrop-filter: blur(8px);
       opacity: 0.8;
+
+        min-height: 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
     }
 
     .card h3 {
@@ -167,11 +173,13 @@
 
   <div class="team">
     <div class="card" id="left2">
-      <h3>Ashutosh</h3>
-      <!-- <span>Roll No: 25</span> -->
+      <h3>Nishant Chaudhary</h3>
+      <span></span>
+      
     </div>
     <div class="card" id="left1">
       <h3>Shivanshu Yadav</h3>
+      <span>Group Lead</span>
     </div>
     <div class="card" id="center">
       <h3>Nishant Chaudhary</h3>
@@ -185,25 +193,39 @@
     <button onclick="location.href='slide.html'">Present</button>
   </div>
 
-  <script>
-    function highlightSequence() {
-      const ids = ["center", "left1", "right1", "left2", "right2"];
-      ids.forEach(id => document.getElementById(id).classList.remove("highlight"));
+<script>
+function highlightSequence() {
+  const ids = ["left2", "left1", "center", "right1"];
 
-      setTimeout(() => document.getElementById("center").classList.add("highlight"), 1000);
-      setTimeout(() => {
-        document.getElementById("left1").classList.add("highlight");
-        document.getElementById("right1").classList.add("highlight");
-      }, 2500);
-      setTimeout(() => {
-        document.getElementById("left2").classList.add("highlight");
-        document.getElementById("right2").classList.add("highlight");
-      }, 3500);
+  // Remove all highlights
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.classList.remove("highlight");
     }
+  });
 
-    highlightSequence();
-    setInterval(highlightSequence, 6000);
-  </script>
+  // Left → Right animation
+  setTimeout(() => {
+    document.getElementById("left2")?.classList.add("highlight");
+  }, 500);
+
+  setTimeout(() => {
+    document.getElementById("left1")?.classList.add("highlight");
+  }, 1500);
+
+  setTimeout(() => {
+    document.getElementById("center")?.classList.add("highlight");
+  }, 2500);
+
+  setTimeout(() => {
+    document.getElementById("right1")?.classList.add("highlight");
+  }, 3500);
+}
+
+highlightSequence();
+setInterval(highlightSequence, 5000);
+</script>
 </body>
 </html>
 
